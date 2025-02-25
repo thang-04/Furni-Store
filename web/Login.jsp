@@ -65,6 +65,7 @@
                         <c:if test="${mssErr!=null}" >
                             <p class="text-danger">${mssErr}</p>
                         </c:if>
+
                         <div class="container-login100-form-btn">
                             <div class="wrap-login100-form-btn">
                                 <div class="login100-form-bgbtn"></div>
@@ -73,6 +74,11 @@
                                 </button>
                             </div>
 
+                        </div>
+                        <div class="text-center m-t-19">
+                            <a href="#" class="btn btn-link btn-floating mx-1 google-btn btn-google">
+                                <i class="fa fa-google"></i>
+                            </a>
                         </div>
 
                         <div class="text-center p-t-60">
@@ -88,7 +94,6 @@
                 </div>
             </div>
         </div>
-
 
 
         <div id="dropDownSelect1"></div>

@@ -1,7 +1,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -32,7 +32,9 @@
         <c:import url="Header.jsp"></c:import>
             <!-- End Header/Navigation -->
 
-            <form action="profile?uid=${sessionLogin.uid}" method="POST" enctype="multipart/form-data">
+            <!--chưa dùng file nên xóa enctype="multipart/form-data" của form-->
+
+            <form action="profile?uid=${sessionLogin.uid}" method="POST" >
 
             <div class="container py-5">
                 <div class="row justify-content-center g-4">
@@ -43,8 +45,8 @@
                             <h5>Profile Picture</h5>
 
                             <img id="previewImage" src="images/person_2.jpg" alt="Profile Picture" class="profile-img mb-3">
-                            <!-- Input file -->
-                            <input type="file" class="form-control" id="fileInput" name="file" placeholder="Enter photo">
+                            <!-- Input file tam thoi comment -->
+                            <!--                            <input type="file" class="form-control" id="fileInput" name="file" placeholder="Enter photo">-->
                         </div>
                     </div>
 
@@ -82,14 +84,12 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Birthdate</label>
-                                    <input type="date" class="form-control" name="birthDay" value="${sessionLogin.birthDay}">
+                                    <input type="date" class="form-control" name="birthDay" value="${not empty sessionLogin.birthDay ? sessionLogin.birthDay : ''}">
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary w-100" ">Save Changes</button>
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </form>

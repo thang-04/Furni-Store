@@ -18,6 +18,7 @@ import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -102,7 +103,7 @@ public class UserProfileControl extends HttpServlet {
             Logger.getLogger(UserProfileControl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        dao.updateProfile(username, fullName, acc.getPass(), acc.getRoleId(), "images/", email, birthday, address, phone, uid);
+        dao.updateProfile(username, fullName, acc.getPass(), acc.getRoleId(), acc.getImage(), email, birthday, address, phone, uid);
 
         HttpSession session = request.getSession();
         session.setAttribute("sessionLogin", dao.getUserById(uid));
