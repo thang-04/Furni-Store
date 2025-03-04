@@ -18,9 +18,47 @@ public class Product {
     private Double price;
     private String description;
     private int quantity;
-
+    private Date importDate;
+    private int categoryId;
+    private int sell_id;
 
     public Product() {
+    }
+
+    public Product(int pId, String pName, String image, Double price, String description, int quantity, Date importDate, int categoryId, int sell_id) {
+        this.pId = pId;
+        this.pName = pName;
+        this.image = image;
+        this.price = price;
+        this.description = description;
+        this.quantity = quantity;
+        this.importDate = importDate;
+        this.categoryId = categoryId;
+        this.sell_id = sell_id;
+    }
+
+    public Date getImportDate() {
+        return importDate;
+    }
+
+    public void setImportDate(Date importDate) {
+        this.importDate = importDate;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public int getSell_id() {
+        return sell_id;
+    }
+
+    public void setSell_id(int sell_id) {
+        this.sell_id = sell_id;
     }
 
     public Product(int pId, String pName, String image, Double price, String description, int quantity) {
@@ -30,7 +68,7 @@ public class Product {
         this.price = price;
         this.description = description;
         this.quantity = quantity;
-       
+
     }
 
     public int getpId() {
@@ -80,6 +118,5 @@ public class Product {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-
 
 }

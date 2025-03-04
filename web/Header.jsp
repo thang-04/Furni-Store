@@ -62,31 +62,35 @@
                 <li><a id="cartSize" class="nav-link" href="view"><img src="images/cart.svg">(${size!=null?size:0})</a></li>
 
             </ul>
-    
-            <c:if test="${sessionScope.sessionLogin!=null}">
+            <c:if test="${sessionScope.sessionLogin != null}">
                 <div class="row_dropdow justify-content-center end">
                     <div class="col-md-5">
                         <div class="dropdown custom-dropdown">
-                            <a href="#" data-toggle="dropdown" class="d-flex align-items-center dropdown-link text-left" aria-haspopup="true" aria-expanded="false" data-offset="0, 20">
+                            <a href="#" data-toggle="dropdown" class="d-flex align-items-center dropdown-link text-left" 
+                               aria-haspopup="true" aria-expanded="false" data-offset="0, 20">
                                 <div class="profile-pic mr-3">
-                                    <img src="images/person_2.jpg" alt="Image">
+                                    <img src="images/undraw_profile.svg" alt="Image">
                                 </div>
-                                <!--                                <div class="profile-info">
-                                                                    <h3>Kevin Thomas</h3>
-                                                                    <span>New York City, USA</span>
-                                                                </div>-->
+                                <div class="profile-info">
+                                    <h3>${sessionScope.sessionLogin.userName}</h3>
+                                </div>
                             </a>
 
-                            <div class="dropdown-menu active" aria-labelledby="dropdownMenuButton" >
-                                <a class="dropdown-item " href="#"> <span class="icon icon-dashboard"></span> User Dashboard</a>
-                                <a class="dropdown-item" href="#"><span class="icon icon-mail_outline"></span>Inbox <span class="number">0</span></a>
-                                <a class="dropdown-item" href="#"><span class="icon icon-cog"></span>Setting<span>New</span></a>
-                                <a class="dropdown-item" href="UserProfile.jsp"><span class="icon icon-user"></span>User Profile</a>
-
-                                <c:if test="${sessionScope.sessionLogin!=null}">
-                                    <a class="dropdown-item" href="logout"><span class="icon icon-sign-out"></span>Log out</a>
+                            <div class="dropdown-menu active" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="profile?uID=${sessionScope.sessionLogin.uid}">
+                                    <span class="icon icon-user"></span> User Profile
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <span class="icon icon-cog"></span> Settings
+                                </a>
+                                <c:if test="${sessionScope.sessionLogin.roleId==1}">
+                                    <a class="dropdown-item" href="manageProduct?uID=${sessionScope.sessionLogin.uid}">
+                                        <span class="icon icon-list"></span> Manager 
+                                    </a>
                                 </c:if>
-
+                                <a class="dropdown-item" href="logout">
+                                    <span class="icon icon-sign-out"></span> Log out
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -104,36 +108,36 @@
 <script src="js/main.js"></script>
 <!--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
 
-        <script>
-                                function addToCart(productId) {
-                                    $.ajax({
-                                        url: "buy",
-                                        type: "POST",
-                                        data: {id: productId, num: 1},
-                                        success: function () {
-                                            updateCartSize(); // Cập nhật ngay khi thêm sản phẩm
-                                        },
-                                        error: function (xhr, status, error) {
-                                            console.error("Lỗi khi thêm vào giỏ hàng: " + error);
-                                        }
-                                    });
-                                }
+<script>
+    function addToCart(productId) {
+        $.ajax({
+            url: "buy",
+            type: "POST",
+            data: {id: productId, num: 1},
+            success: function () {
+                updateCartSize(); // Cập nhật ngay khi thêm sản phẩm
+            },
+            error: function (xhr, status, error) {
+                console.error("Lỗi khi thêm vào giỏ hàng: " + error);
+            }
+        });
+    }
 
-                                function updateCartSize() {
-                                    $.ajax({
-                                        url: "sizeCart",
-                                        type: "GET",
-                                        success: function (response) {
-                                            $("#cartSize").html('<img src="images/cart.svg">(' + response.cartSize + ')');
-                                        },
-                                        error: function (xhr, status, error) {
-                                            console.error("Lỗi khi lấy số lượng giỏ hàng: " + error);
-                                        }
-                                    });
-                                }
+    function updateCartSize() {
+        $.ajax({
+            url: "sizeCart",
+            type: "GET",
+            success: function (response) {
+                $("#cartSize").html('<img src="images/cart.svg">(' + response.cartSize + ')');
+            },
+            error: function (xhr, status, error) {
+                console.error("Lỗi khi lấy số lượng giỏ hàng: " + error);
+            }
+        });
+    }
 
-                                $(document).ready(function () {
-                                    updateCartSize(); // Gọi ngay khi tải trang
-                                });
-        </script>
+    $(document).ready(function () {
+        updateCartSize(); // Gọi ngay khi tải trang
+    });
+</script>
 </html>

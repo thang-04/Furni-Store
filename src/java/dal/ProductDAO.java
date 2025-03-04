@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import model.DBContext;
 
@@ -59,19 +60,22 @@ public class ProductDAO extends DBContext {
     }
 
     public Product getProductById(String id) {
-        String sql = "select * from Product where productID=?";
+        String sql = "select * from Product where productID=? ";
         try {
             ps = connection.prepareStatement(sql);
             ps.setString(1, id);
             rs = ps.executeQuery();
             if (rs.next()) {
-                Product c = new Product(rs.getInt(1),
+                Product c = new Product(
+                        rs.getInt(1),
                         rs.getString(2),
                         rs.getString(3),
                         rs.getDouble(4),
                         rs.getString(5),
-                        rs.getInt(6));
-
+                        rs.getInt(6),
+                        rs.getDate(7),
+                        rs.getInt(8),
+                        rs.getInt(9));
                 return c;
             }
         } catch (Exception e) {
@@ -102,4 +106,67 @@ public class ProductDAO extends DBContext {
         return list;
     }
 
+    public void deleteProduct(String pId) {
+        String sql = "delete from Product where [productID]=? ";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, pId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        }
+    }
+
+    public void addProduct(String productName, String image, double price, String description, int quantity, Date importDate, int categoryID, int sell_Id) {
+        String sql = "INSERT INTO [dbo].[Product]\n"
+                + "           ([productName]\n"
+                + "           ,[image]\n"
+                + "           ,[price]\n"
+                + "           ,[description]\n"
+                + "           ,[quantity]\n"
+                + "           ,[importDate]\n"
+                + "           ,[categoryID]\n"
+                + "           ,[sell_Id])\n"
+                + "     VALUES\n"
+                + "           (?,?,?,?,?,?,?,?)";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, productName);
+            ps.setString(2, image);
+            ps.setDouble(3, price);
+            ps.setString(4, description);
+            ps.setInt(5, quantity);
+            ps.setDate(6, new java.sql.Date(importDate.getTime()));
+            ps.setInt(7, categoryID);
+            ps.setInt(8, sell_Id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        }
+    }
+
+    public void updateProduct(String productName, String image, double price, String description, int quantity, Date importDate, int categoryID, int sell_Id, int pId) {
+        String sql = "UPDATE [dbo].[Product]\n"
+                + "   SET [productName] = ?\n"
+                + "      ,[image] = ?\n"
+                + "      ,[price] = ?\n"
+                + "      ,[description] = ?\n"
+                + "      ,[quantity] = ?\n"
+                + "      ,[importDate] = ?\n"
+                + "      ,[categoryID] = ?\n"
+                + "      ,[sell_Id] = ?\n"
+                + " WHERE productID=?";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, productName);
+            ps.setString(2, image);
+            ps.setDouble(3, price);
+            ps.setString(4, description);
+            ps.setInt(5, quantity);
+            ps.setDate(6, new java.sql.Date(importDate.getTime()));
+            ps.setInt(7, categoryID);
+            ps.setInt(8, sell_Id);
+            ps.setInt(9, pId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+        }
+    }
 }

@@ -44,9 +44,9 @@
                         <div class="profile-card text-center">
                             <h5>Profile Picture</h5>
 
-                            <img id="previewImage" src="images/person_2.jpg" alt="Profile Picture" class="profile-img mb-3">
+                            <img id="previewImage" src="images/undraw_profile.svg" alt="Profile Picture" class="profile-img mb-3">
                             <!-- Input file tam thoi comment -->
-                            <!--                            <input type="file" class="form-control" id="fileInput" name="file" placeholder="Enter photo">-->
+                            <input type="file" class="form-control" id="fileInput" name="file" placeholder="Enter photo">
                         </div>
                     </div>
 

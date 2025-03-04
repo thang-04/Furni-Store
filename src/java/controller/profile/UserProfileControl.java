@@ -73,7 +73,12 @@ public class UserProfileControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        ProfileDao dao = new ProfileDao();
+        String uid = request.getParameter("uID");
+        HttpSession session = request.getSession();
+        session.setAttribute("sessionLogin", dao.getUserById(uid));
+        session.setMaxInactiveInterval(60 * 60 * 60 * 24);
+        request.getRequestDispatcher("UserProfile.jsp").forward(request, response);
     }
 
     /**
@@ -108,7 +113,7 @@ public class UserProfileControl extends HttpServlet {
         HttpSession session = request.getSession();
         session.setAttribute("sessionLogin", dao.getUserById(uid));
         session.setMaxInactiveInterval(60 * 60 * 60 * 24);
-        response.sendRedirect("UserProfile.jsp");
+         request.getRequestDispatcher("UserProfile.jsp").forward(request, response);
     }
 
     /**
