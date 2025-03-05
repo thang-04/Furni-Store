@@ -80,10 +80,10 @@
                                 <a class="dropdown-item" href="profile?uID=${sessionScope.sessionLogin.uid}">
                                     <span class="icon icon-user"></span> User Profile
                                 </a>
-                                <a class="dropdown-item" href="#">
+<!--                                <a class="dropdown-item" href="#">
                                     <span class="icon icon-cog"></span> Settings
-                                </a>
-                                <c:if test="${sessionScope.sessionLogin.roleId==1}">
+                                </a>-->
+                                <c:if test="${sessionScope.sessionLogin.roleId!=0}">
                                     <a class="dropdown-item" href="manageProduct?uID=${sessionScope.sessionLogin.uid}">
                                         <span class="icon icon-list"></span> Manager 
                                     </a>

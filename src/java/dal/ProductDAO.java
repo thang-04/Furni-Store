@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import model.DBContext;
@@ -32,6 +33,27 @@ public class ProductDAO extends DBContext {
             rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Category(rs.getInt(1), rs.getString(2)));
+            }
+        } catch (Exception e) {
+        }
+
+        return list;
+    }
+
+    public List<Product> getAllProductByUid(String uid) {
+        List<Product> list = new ArrayList<>();
+        String sql = "select * from Product where sell_Id =?";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, uid);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Product(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getDouble(4),
+                        rs.getString(5),
+                        rs.getInt(6)));
             }
         } catch (Exception e) {
         }
@@ -103,6 +125,50 @@ public class ProductDAO extends DBContext {
         } catch (Exception e) {
         }
 
+        return list;
+    }
+
+    public List<Product> filterProducts(double minPrice, double maxPrice, List<Integer> brands, boolean isAll, String sortOrder) {
+        List<Product> list = new ArrayList<>();
+        String sql = "SELECT * FROM Product WHERE price BETWEEN ? AND ?";
+
+        if (!brands.isEmpty()) {
+            String brandPlaceholders = String.join(",", Collections.nCopies(brands.size(), "?"));
+            sql += " AND brandID IN (" + brandPlaceholders + ")";
+        }
+        if ("asc".equals(sortOrder)) {
+            sql += " ORDER BY price ASC";
+        } else if ("desc".equals(sortOrder)) {
+            sql += " ORDER BY price DESC";
+        }
+
+        try {
+            ps = connection.prepareStatement(sql.toString());
+            ps.setDouble(1, minPrice);
+            ps.setDouble(2, maxPrice);
+
+            int index = 3;
+            if (!isAll && !brands.isEmpty()) {
+                for (Integer brand : brands) {
+                    ps.setInt(index++, brand);
+                }
+            }
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Product(rs.getInt("productID"),
+                        rs.getString("productName"),
+                        rs.getString("image"),
+                        rs.getDouble("price"),
+                        rs.getString("description"),
+                        rs.getInt("quantity"),
+                        rs.getDate("importDate"),
+                        rs.getInt("categoryID"),
+                        rs.getInt("sell_Id")));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return list;
     }
 

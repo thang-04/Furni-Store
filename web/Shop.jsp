@@ -75,40 +75,85 @@
                         <div class="filter-section">
                             <h5>FILTER <span class="icon-filter"></span></h5>
                             <hr>
+                            <form id="filterProduct" action="filter" method="GET">
+                                <div class="filter-sort">
+                                    <h6 for="sort-order">SORT</h6>
+                                    <select id="sort-order" name="sortOrder" class="form-select" >
+                                        <option value="" ${currentSortOrder == null ? "selected" : ""}>------</option>
+                                        <option value="asc" ${currentSortOrder == "asc" ? "selected" : ""}>Tăng dần</option>
+                                        <option value="desc" ${currentSortOrder == "desc" ? "selected" : ""}>Giảm dần</option>
+                                    </select>
+                                </div>
+                                <hr>
+                                <div class="filter-category">
+                                    <h6>BRAND</h6>
+                                    <ul style="list-style-type: none; padding-left: 0;">
+                                        <li><input type="checkbox" id="all" name="brand" value="all"> <label for="all">ALL</label></li>
+                                            <c:forEach items="${listC}" var="c">
+                                            <li><input type="checkbox" id="brand-${c.cId}" name="brand" value="${c.cId}"> <label for="brand-${c.cId}">${c.categoryName}</label></li>
+                                            </c:forEach>
+                                    </ul>
+                                </div>
+                                <hr>
 
-                            <div class="filter-category">
-                                <h6>BRAND</h6>
-                                <ul style="list-style-type: none; padding-left: 0;">
-                                    <li><input type="checkbox" id="all" name="brand" value="all"> <label for="all">ALL </label></li>
-                                        <c:forEach items="${listC}" var="c">
-                                        <li><input type="checkbox" id="all" name="brand" value="all"> <label for="all">${c.categoryName}</label></li>
-                                        </c:forEach>
+                                <div class="filter-price">
+                                    <h6>PRICE</h6>
+                                    <div class="price-slider-container">
+                                        <input type="range" id="price-min" name="minPrice" min="0" max="999" step="2" value="0" oninput="updatePriceRange()">
+                                        <input type="range" id="price-max" name="maxPrice" min="0" max="999" step="2" value="999" oninput="updatePriceRange()">
+                                    </div>
+                                    <p id="price-display">0$ - 999$</p>
+                                </div>
+                                <hr>
 
-                                </ul>
-                            </div>
-                            <hr>
-                            <div class="filter-reviews">
-                                <h6>AVERAGE REVIEWS</h6>
-                                <ul style="list-style-type: none; padding-left: 0;">
-                                    <li><input type="checkbox" id="five-stars" name="reviews" value="5"> <label for="five-stars">Above <span class="stars">★★★★★</span></label></li>
-                                    <li><input type="checkbox" id="four-stars" name="reviews" value="4"> <label for="four-stars">Above <span class="stars">★★★★☆</span></label></li>
-                                    <li><input type="checkbox" id="three-stars" name="reviews" value="3"> <label for="three-stars">Above <span class="stars">★★★☆☆</span></label></li>
-                                    <li><input type="checkbox" id="two-stars" name="reviews" value="2"> <label for="two-stars">Above <span class="stars">★★☆☆☆</span></label></li>
-                                </ul>
-                            </div>
-
-                            <!---------------fix here---------------------------------------------------------------->
-
-                            <div class="row-cols-auto ">
-                                <button class="btn btn-filter">
-                                    <span class="icon-check"></span>
-                                </button>
-                            </div>
+                                <div class="row-cols-auto">
+                                    <button type="submit" class="btn btn-filter d-block mx-auto">
+                                        <span class="icon-check"></span>
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                    <!-- End Filter Section -->
 
+                    <style>
+                        #sort-order {
+                            width: 150px;
+                            padding: 5px;
+                            font-size: 16px;
+                        }
 
+                        .price-slider-container {
+                            position: relative;
+                            width: 100%;
+                            display: flex;
+                            align-items: center;
+                            margin-top: 30px;
+                        }
+                        input[type=range] {
+                            -webkit-appearance: none;
+                            width: 100%;
+                            height: 5px;
+                            background: #000;
+                            border-radius: 5px;
+                            position: absolute;
+                            pointer-events: none;
+                        }
+                        input[type=range]::-webkit-slider-thumb {
+                            -webkit-appearance: none;
+                            width: 15px;
+                            height: 15px;
+                            background: black;
+                            border-radius: 50%;
+                            cursor: pointer;
+                            pointer-events: auto;
+                            position: relative;
+                        }
+                        #price-display {
+                            text-align: center;
+                            font-weight: bold;
+                            margin-top: 30px;
+                        }
+                    </style>
                     <!-- Product Listing Section -->
                     <div class="col-lg-10">
 
@@ -341,17 +386,31 @@
             </div> 
         </div> 
 
-
-
-
         <script src="js/bootstrap.bundle.min.js"></script>
         <script src="js/tiny-slider.js"></script>
         <script src="js/custom.js"></script>
         <script src="js/click-event.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+                                function updatePriceRange() {
+                                    let minInput = document.getElementById('price-min');
+                                    let maxInput = document.getElementById('price-max');
+                                    let minPrice = parseInt(minInput.value);
+                                    let maxPrice = parseInt(maxInput.value);
 
+                                    if (minPrice >= maxPrice) {
+                                        minInput.value = maxPrice;
+                                    }
+                                    if (maxPrice <= minPrice) {
+                                        maxInput.value = minPrice;
+                                    }
+                                    document.getElementById('price-display').textContent = formatCurrency(minPrice) + '$ - ' + formatCurrency(maxPrice) + '$';
+                                }
+                                function formatCurrency(value) {
+                                    return value.toLocaleString('en-US');
+                                }
 
-
+        </script>
     </body>
 
 </html>

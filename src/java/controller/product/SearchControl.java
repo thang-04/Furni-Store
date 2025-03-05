@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package dal;
+package controller.product;
 
+import dal.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -83,7 +84,7 @@ public class SearchControl extends HttpServlet {
         request.setAttribute("listC", listC);
         request.setAttribute("listP", listP);
         request.setAttribute("value", txtS);
-        request.getRequestDispatcher("Shop.jsp").forward(request, response);
+        request.getRequestDispatcher("shop").forward(request, response);
     }
 
     /**

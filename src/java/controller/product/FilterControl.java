@@ -2,10 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.admin;
+package controller.product;
 
 import dal.ProductDAO;
-import dal.ProfileDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,7 +12,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import model.Category;
 import model.Product;
@@ -22,8 +22,8 @@ import model.Product;
  *
  * @author PC
  */
-@WebServlet(name = "ManageProduct", urlPatterns = {"/manageProduct"})
-public class MnProductControl extends HttpServlet {
+@WebServlet(name = "FilterControl", urlPatterns = {"/filter"})
+public class FilterControl extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +42,10 @@ public class MnProductControl extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UpdateProductControl</title>");
+            out.println("<title>Servlet FilterControl</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet manageProductControl at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet FilterControl at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,27 +63,32 @@ public class MnProductControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ProductDAO dao = new ProductDAO();
-        ProfileDao dao2 = new ProfileDao();
-        List<Category> listC = dao.getAllCategory();
-        List<Product> listP = null;
-        HttpSession session = request.getSession();
-        String uid = (String) session.getAttribute("uID");
 
-        if (uid == null) {
-            uid = request.getParameter("uID");
-            session.setAttribute("uID", uid);
-        }
+        String[] brandParams = request.getParameterValues("brand");
+        double minPrice = Double.parseDouble(request.getParameter("minPrice"));
+        double maxPrice = Double.parseDouble(request.getParameter("maxPrice"));
+        String sortOrder = request.getParameter("sortOrder") != null ? request.getParameter("sortOrder") : "";
+        List<Integer> brands = new ArrayList<>();
+        boolean isAll = false;
 
-        if (Integer.parseInt(uid) == 3) {
-            listP = dao.getAllProduct();
-        } else {
-            listP = dao.getAllProductByUid(uid);
+        if (brandParams != null) {
+            for (String b : brandParams) {
+                if (b.equals("all")) {
+                    isAll = true;
+                    break;
+                }
+                brands.add(Integer.parseInt(b));
+            }
         }
-        session.setAttribute("dataUser", dao2.getUserById(uid));
+        ProductDAO productDAO = new ProductDAO();
+        List<Product> filteredProducts = productDAO.filterProducts(minPrice, maxPrice, brands, isAll, sortOrder);
+        List<Category> listC = productDAO.getAllCategory();
+
         request.setAttribute("listC", listC);
-        request.setAttribute("listP", listP);
-        request.getRequestDispatcher("ManagerProduct.jsp").forward(request, response);
+        request.setAttribute("listP", filteredProducts);
+        request.setAttribute("currentSortOrder", sortOrder);
+        request.setAttribute("filteredProducts", filteredProducts);
+        request.getRequestDispatcher("Shop.jsp").forward(request, response);
     }
 
     /**
