@@ -67,27 +67,74 @@ public class FilterControl extends HttpServlet {
         String[] brandParams = request.getParameterValues("brand");
         double minPrice = Double.parseDouble(request.getParameter("minPrice"));
         double maxPrice = Double.parseDouble(request.getParameter("maxPrice"));
-        String sortOrder = request.getParameter("sortOrder") != null ? request.getParameter("sortOrder") : "";
+        String sortOrder = request.getParameter("sortOrder");
+        if (sortOrder != null) {
+            sortOrder = sortOrder.trim();
+        } else {
+            sortOrder = "";
+        }
+        int page = 1;
+        int pageSize = 6; 
+        String pageStr = request.getParameter("page");
+        if (pageStr != null && !pageStr.trim().isEmpty()) {
+            try {
+                page = Integer.parseInt(pageStr.trim());
+                if (page < 1) {
+                    page = 1; 
+                }
+            } catch (NumberFormatException e) {
+                page = 1;
+            }
+        }
+
         List<Integer> brands = new ArrayList<>();
         boolean isAll = false;
-
         if (brandParams != null) {
             for (String b : brandParams) {
-                if (b.equals("all")) {
+                String brandValue = b.trim();
+                if (brandValue.equals("all")) {
                     isAll = true;
                     break;
                 }
-                brands.add(Integer.parseInt(b));
+                try {
+                    brands.add(Integer.parseInt(brandValue));
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid brand value: " + brandValue);
+                }
             }
         }
+
         ProductDAO productDAO = new ProductDAO();
-        List<Product> filteredProducts = productDAO.filterProducts(minPrice, maxPrice, brands, isAll, sortOrder);
+        List<Product> allFilteredProducts = productDAO.filterProducts(minPrice, maxPrice, brands, isAll, sortOrder);
+        int totalProducts = allFilteredProducts.size();
+        int totalPages = Math.max(1, (int) Math.ceil((double) totalProducts / pageSize)); 
+
+        if (page > totalPages) {
+            page = totalPages;
+        }
+        List<Product> paginatedFilteredProducts = new ArrayList<>();
+        int startIndex = (page - 1) * pageSize;
+        int endIndex = Math.min(startIndex + pageSize, totalProducts);
+
+        if (startIndex < totalProducts) {
+            paginatedFilteredProducts = allFilteredProducts.subList(startIndex, endIndex);
+        }
+
         List<Category> listC = productDAO.getAllCategory();
 
+        request.setAttribute("minPrice", minPrice);
+        request.setAttribute("maxPrice", maxPrice);
+        request.setAttribute("brands", brands);
+        request.setAttribute("isAll", isAll);
+        request.setAttribute("sortOrder", sortOrder); 
+
         request.setAttribute("listC", listC);
-        request.setAttribute("listP", filteredProducts);
+        request.setAttribute("listP", paginatedFilteredProducts);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("totalPages", totalPages);
         request.setAttribute("currentSortOrder", sortOrder);
-        request.setAttribute("filteredProducts", filteredProducts);
+        request.setAttribute("filteredProducts", true); 
+
         request.getRequestDispatcher("Shop.jsp").forward(request, response);
     }
 

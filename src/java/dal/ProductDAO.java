@@ -235,4 +235,87 @@ public class ProductDAO extends DBContext {
         } catch (Exception e) {
         }
     }
+
+    public int countTotalProducts() {
+        String sql = "SELECT COUNT(*) FROM Product";
+        try {
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int countTotalProductsByUid(String uid) {
+        String sql = "SELECT COUNT(*) FROM Product WHERE sell_Id = ?";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, uid);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public List<Product> getProductsByPage(int page, int pageSize) {
+        List<Product> list = new ArrayList<>();
+        String sql = "SELECT * FROM Product ORDER BY productID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, (page - 1) * pageSize);
+            ps.setInt(2, pageSize);
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Product(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getDouble(4),
+                        rs.getString(5),
+                        rs.getInt(6)
+                ));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public List<Product> getProductsByPageByUid(int page, int pageSize, String uid) {
+        List<Product> list = new ArrayList<>();
+        String sql = "SELECT * FROM Product WHERE sell_Id = ? ORDER BY productID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, uid);
+            ps.setInt(2, (page - 1) * pageSize);
+            ps.setInt(3, pageSize);
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Product(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getDouble(4),
+                        rs.getString(5),
+                        rs.getInt(6)
+                ));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
 }

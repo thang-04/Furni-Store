@@ -116,25 +116,24 @@
                                     </c:forEach>
                                 </tbody>
                             </table>
+                            <!--paging-->
                             <div class="clearfix">
-                                <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+                                <div class="hint-text">Showing <b>${startItem}</b> to <b>${endItem}</b> out of <b>${totalProducts}</b> entries</div>
                                 <ul class="pagination">
-                                    <li class="page-item">
-                                        <a href="manager?index=${currentPage == 1 ? 1 : (currentPage - 1)}" class="page-link">Previous</a>
+                                    <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+                                        <a href="manageProduct?index=${currentPage - 1}" class="page-link">Previous</a>
                                     </li>
-
                                     <c:forEach var="i" begin="1" end="${count}">
-                                        <li class="page-item">
-                                            <a href="manager?index=${i}" class="page-link">${i}</a>
+                                        <li class="page-item ${currentPage == i ? 'active' : ''}">
+                                            <a href="manageProduct?index=${i}" class="page-link">${i}</a>
                                         </li>
                                     </c:forEach>
-
-                                    <li class="page-item">
-                                        <a href="manager?index=${currentPage == count ? count : (currentPage + 1)}" class="page-link">Next</a>
+                                    <li class="page-item ${currentPage == count ? 'disabled' : ''}">
+                                        <a href="manageProduct?index=${currentPage + 1}" class="page-link">Next</a>
                                     </li>
-
                                 </ul>
                             </div>
+                            <!--end paging-->
                         </div>
                     </div>
                     <!-- Edit Modal HTML -->

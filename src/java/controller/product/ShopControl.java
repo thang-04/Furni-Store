@@ -61,7 +61,23 @@ public class ShopControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        ProductDAO dao = new ProductDAO();
+        int page = 1;
+        int pageSize = 6; 
+        String pageStr = request.getParameter("page");
+        if (pageStr != null) {
+            page = Integer.parseInt(pageStr);
+        }
+        
+        List<Product> products = dao.getProductsByPage(page, pageSize);
+        int totalProducts = dao.countTotalProducts();
+        int totalPages = (int) Math.ceil((double) totalProducts / pageSize);
+        List<Category> listC = dao.getAllCategory();
+        request.setAttribute("listC", listC);
+        request.setAttribute("listP", products);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("totalPages", totalPages);
+        request.getRequestDispatcher("Shop.jsp").forward(request, response);
 
     }
 

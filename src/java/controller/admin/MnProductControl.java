@@ -66,23 +66,65 @@ public class MnProductControl extends HttpServlet {
         ProductDAO dao = new ProductDAO();
         ProfileDao dao2 = new ProfileDao();
         List<Category> listC = dao.getAllCategory();
-        List<Product> listP = null;
+        List<Product> listProducts = null;
         HttpSession session = request.getSession();
         String uid = (String) session.getAttribute("uID");
-
         if (uid == null) {
             uid = request.getParameter("uID");
             session.setAttribute("uID", uid);
         }
+        try {
+            String indexParam = request.getParameter("index");
+            int index = 1;
+            if (indexParam != null) {
+                try {
+                    index = Integer.parseInt(indexParam);
+                    if (index < 1) {
+                        index = 1;
+                    }
+                } catch (NumberFormatException e) {
+                }
+            }
+            int pageSize = 5;
+            int totalProducts, totalPages;
+            //check admin(uid=3)
+            if (Integer.parseInt(uid) == 3) {
+                totalProducts = dao.countTotalProducts();
+                totalPages = (totalProducts % pageSize == 0)
+                        ? (totalProducts / pageSize)
+                        : (totalProducts / pageSize) + 1;
+                if (index > totalPages && totalPages > 0) {
+                    index = totalPages;
+                }
+                listProducts = dao.getProductsByPage(index, pageSize);
+            } else {
+                totalProducts = dao.countTotalProductsByUid(uid);
+                totalPages = (totalProducts % pageSize == 0)
+                        ? (totalProducts / pageSize)
+                        : (totalProducts / pageSize) + 1;
+                if (index > totalPages && totalPages > 0) {
+                    index = totalPages;
+                }
+                listProducts = dao.getProductsByPageByUid(index, pageSize, uid);
+            }
 
-        if (Integer.parseInt(uid) == 3) {
-            listP = dao.getAllProduct();
-        } else {
-            listP = dao.getAllProductByUid(uid);
+            request.setAttribute("listP", listProducts);
+            request.setAttribute("currentPage", index);
+            request.setAttribute("count", totalPages);
+            request.setAttribute("totalProducts", totalProducts);
+
+            int start = (index - 1) * pageSize + 1;
+            int end = Math.min(index * pageSize, totalProducts);
+            request.setAttribute("startItem", start);
+            request.setAttribute("endItem", end);
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
         session.setAttribute("dataUser", dao2.getUserById(uid));
         request.setAttribute("listC", listC);
-        request.setAttribute("listP", listP);
+//        request.setAttribute("listP", listP);
         request.getRequestDispatcher("ManagerProduct.jsp").forward(request, response);
     }
 
