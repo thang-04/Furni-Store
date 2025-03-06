@@ -134,7 +134,7 @@ public class ProductDAO extends DBContext {
 
         if (!brands.isEmpty()) {
             String brandPlaceholders = String.join(",", Collections.nCopies(brands.size(), "?"));
-            sql += " AND brandID IN (" + brandPlaceholders + ")";
+            sql += " AND categoryID IN (" + brandPlaceholders + ")";
         }
         if ("asc".equals(sortOrder)) {
             sql += " ORDER BY price ASC";
