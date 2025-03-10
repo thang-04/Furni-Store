@@ -9,6 +9,7 @@ import model.Product;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -34,9 +35,9 @@ public class ProductDAO extends DBContext {
             while (rs.next()) {
                 list.add(new Category(rs.getInt(1), rs.getString(2)));
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
         return list;
     }
 
@@ -55,9 +56,9 @@ public class ProductDAO extends DBContext {
                         rs.getString(5),
                         rs.getInt(6)));
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
         return list;
     }
 
@@ -75,9 +76,9 @@ public class ProductDAO extends DBContext {
                         rs.getString(5),
                         rs.getInt(6)));
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
         return list;
     }
 
@@ -100,7 +101,8 @@ public class ProductDAO extends DBContext {
                         rs.getInt(9));
                 return c;
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -122,9 +124,10 @@ public class ProductDAO extends DBContext {
                         rs.getString(5),
                         rs.getInt(6)));
             }
-        } catch (Exception e) {
-        }
+        } catch (SQLException e) {
+            e.printStackTrace();
 
+        }
         return list;
     }
 
@@ -166,7 +169,7 @@ public class ProductDAO extends DBContext {
                         rs.getInt("categoryID"),
                         rs.getInt("sell_Id")));
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return list;
@@ -178,7 +181,9 @@ public class ProductDAO extends DBContext {
             ps = connection.prepareStatement(sql);
             ps.setString(1, pId);
             ps.executeUpdate();
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            e.printStackTrace();
+
         }
     }
 
@@ -205,7 +210,9 @@ public class ProductDAO extends DBContext {
             ps.setInt(7, categoryID);
             ps.setInt(8, sell_Id);
             ps.executeUpdate();
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            e.printStackTrace();
+
         }
     }
 
@@ -232,7 +239,9 @@ public class ProductDAO extends DBContext {
             ps.setInt(8, sell_Id);
             ps.setInt(9, pId);
             ps.executeUpdate();
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            e.printStackTrace();
+
         }
     }
 
@@ -244,7 +253,7 @@ public class ProductDAO extends DBContext {
             if (rs.next()) {
                 return rs.getInt(1);
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return 0;
@@ -259,7 +268,7 @@ public class ProductDAO extends DBContext {
             if (rs.next()) {
                 return rs.getInt(1);
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return 0;
@@ -285,7 +294,7 @@ public class ProductDAO extends DBContext {
                         rs.getInt(6)
                 ));
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return list;
@@ -312,10 +321,24 @@ public class ProductDAO extends DBContext {
                         rs.getInt(6)
                 ));
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public void updateQuantityProduct(Product product, int value) {
+        try {
+            String sql = "UPDATE [dbo].[Product]\n"
+                    + "   SET [quantity] = (quantity - ?)\n"
+                    + " WHERE productName=?";
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, value);
+            ps.setString(2, product.getpName());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }

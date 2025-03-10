@@ -97,7 +97,7 @@ public class BuyControl extends HttpServlet {
         if (cookies != null) {
             for (Cookie o : cookies) {
                 if (o.getName().equals("cart")) {
-                    txt += o.getValue(); // Giữ lại giá trị cũ
+                    txt += o.getValue(); 
                     break;
                 }
             }
