@@ -15,8 +15,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 import java.util.List;
 import model.Cart;
+import model.Email;
 import model.Item;
 import model.Product;
 import model.User;
@@ -132,7 +134,7 @@ public class CheckOutControl extends HttpServlet {
         } else {
             n = 0;
         }
-
+   
         request.setAttribute("dataUser", sessionLogin);
         request.setAttribute("size", n);
         request.setAttribute("cart", cart);
@@ -143,6 +145,17 @@ public class CheckOutControl extends HttpServlet {
             Cookie c = new Cookie("cart", "");
             c.setMaxAge(0);
             response.addCookie(c);
+
+            try {
+                LocalDateTime currentDateTime = LocalDateTime.now();
+                Email handleEmail = new Email();
+                String sub = handleEmail.subjectOrder(sessionLogin.getFullName());
+                String msg = handleEmail.messageOrder(currentDateTime, cart.getTotalMoney(), sessionLogin.getAddress());
+                handleEmail.sendEmail(sub, msg, sessionLogin.getEmail());
+            } catch (Exception e) {
+                e.printStackTrace(); // In lỗi ra console để kiểm tra
+            }
+            
             request.getRequestDispatcher("Thankyou.jsp").forward(request, response);
         } else {
             request.getRequestDispatcher("Login.jsp").forward(request, response);
