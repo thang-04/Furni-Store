@@ -73,8 +73,16 @@
                                     Login
                                 </button>
                             </div>
-
-                        </div>
+                        </div><br>
+                        
+                        <style>
+                            .hidden {
+                                display: none;
+                            }
+                        </style>
+                        <!--recaptcha-->
+                        <div id="recaptcha-container" class="g-recaptcha hidden" data-sitekey="6LdjEvUqAAAAAHLAhBPmrmSmAV4otZLVM4sr18HS"></div>
+                        <!-------------->
                         <div class="text-center m-t-19">
                             <a href="#" class="btn btn-link btn-floating mx-1 google-btn btn-google">
                                 <i class="fa fa-google"></i>
@@ -96,8 +104,10 @@
         </div>
 
 
-        <div id="dropDownSelect1"></div>
+        <div id="dropDownSelect1"></div
 
+        <!--===============================================================================================-->
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
         <!--===============================================================================================-->
         <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
         <!--===============================================================================================-->
@@ -114,6 +124,30 @@
         <script src="vendor/countdowntime/countdowntime.js"></script>
         <!--===============================================================================================-->
         <script src="js/main_login.js"></script>
+
+        <!--        Handel recaptha-->
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var loginButton = document.querySelector(".login100-form-btn");
+                var recaptchaContainer = document.getElementById("recaptcha-container");
+                var form = document.querySelector(".login100-form");
+
+                loginButton.addEventListener("click", function (event) {
+                    var recaptchaResponse = grecaptcha.getResponse();
+
+
+                    if (recaptchaContainer.classList.contains("hidden")) {
+                        event.preventDefault();
+                        recaptchaContainer.classList.remove("hidden");
+
+                    } else if (!recaptchaResponse) {
+                        event.preventDefault();
+                        alert("Vui lòng xác nhận reCAPTCHA trước khi đăng nhập!");
+                    }
+                });
+            });
+        </script>
+
 
     </body>
 </html>
