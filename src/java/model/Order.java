@@ -4,48 +4,44 @@
  */
 package model;
 
+import java.util.Date;
+
 /**
  *
  * @author PC
  */
 public class Order {
     private int oId;
-    private String date;
-    private double totalMoney;
+    private Date date;
     private int userId;
+    private double totalMoney;
+    private int status;
 
     public Order() {
     }
 
-    public Order(int oId, String date, double totalMoney, int userId) {
+    public Order(int oId, Date date, int userId, double totalMoney, int status) {
         this.oId = oId;
         this.date = date;
-        this.totalMoney = totalMoney;
         this.userId = userId;
+        this.totalMoney = totalMoney;
+        this.status = status;
     }
 
-    public int getoId() {
-        return oId;
-    }
+    public int getOId() {  
+    return oId;
+}
 
-    public void setoId(int oId) {
+    public void setOId(int oId) {
         this.oId = oId;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
-    }
-
-    public double getTotalMoney() {
-        return totalMoney;
-    }
-
-    public void setTotalMoney(double totalMoney) {
-        this.totalMoney = totalMoney;
     }
 
     public int getUserId() {
@@ -56,7 +52,22 @@ public class Order {
         this.userId = userId;
     }
 
+    public double getTotalMoney() {
+        return totalMoney;
+    }
 
-    
+    public void setTotalMoney(double totalMoney) {
+        this.totalMoney = totalMoney;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+   
     
 }

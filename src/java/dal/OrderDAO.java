@@ -9,9 +9,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import model.Cart;
 import model.DBContext;
 import model.Item;
+import model.Order;
 import model.User;
 
 /**
@@ -76,4 +79,63 @@ public class OrderDAO extends DBContext {
         }
     }
 
+    // Get total number of orders
+    public int getTotalOrders() {
+        String sql = "SELECT COUNT(*) FROM Orders";
+        try {
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    // Get total revenue from Orders
+    public double getTotalRevenue() {
+        String sql = "SELECT SUM(TotalMoney) FROM Orders";
+        try {
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getDouble(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0.0;
+    }
+
+    public List<Order> getAllOrder() {
+        List<Order> list = new ArrayList<>();
+        String sql = "select *from Orders";
+        try {
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Order(rs.getInt(1), rs.getDate(2), rs.getInt(3), rs.getDouble(4), rs.getInt(5)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+      
+    public int getTotalUser() {
+        String sql = "SELECT COUNT(*) FROM Users";
+        try {
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }
