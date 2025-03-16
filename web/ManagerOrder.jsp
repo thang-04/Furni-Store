@@ -30,7 +30,7 @@
         <!-- Custom styles for this template-->
         <link href="css/sb-admin-2.min.css" rel="stylesheet">
         <link href="css/manager.css" rel="stylesheet" type="text/css"/>
-        
+
     </head>
 
     <body id="page-top">
@@ -96,11 +96,16 @@
                                                 <td>${o.date}</td>
                                                 <td>${o.totalMoney}$</td>
                                                 <td>${o.userId}</td>
-                                                <td>${o.status}</td>
+                                                <td>${o.status==0?"Not delivery":"Delivered"}</td>
                                                 <td style="white-space: nowrap;">
-                                                    <a href="viewOrderDetail?oId=${o.OId}" class="btn btn-sm " data-toggle="tooltip" title="View Details">
-                                                        <i class="fas fa-eye small"></i>
-                                                    </a>
+                                                    <c:if test="${o.status==0}">
+                                                        <a href="invoice?oId=${o.OId}" class="btn btn-sm alert-success" data-toggle="tooltip" title="Delivery">
+                                                            <i class="fas fa-check"></i>
+                                                        </a>
+                                                    </c:if>
+<!--                                                    <a href="viewOrderDetail?oId=${o.OId}" class="btn btn-sm " data-toggle="tooltip" title="View Details">
+                                                    <i class="fas fa-eye small"></i>
+                                                </a>-->
                                                 </td>
                                             </tr>
                                         </c:forEach>
@@ -177,32 +182,32 @@
 
         <!-- Custom scripts for checkbox and delete functionality -->
         <script>
-            $(document).ready(function() {
+            $(document).ready(function () {
                 // Activate tooltip
                 $('[data-toggle="tooltip"]').tooltip();
-                
+
                 // Select/Deselect checkboxes
                 var checkbox = $('table tbody input[type="checkbox"]');
-                $("#selectAll").click(function() {
-                    if(this.checked) {
-                        checkbox.each(function() {
-                            this.checked = true;                        
+                $("#selectAll").click(function () {
+                    if (this.checked) {
+                        checkbox.each(function () {
+                            this.checked = true;
                         });
                     } else {
-                        checkbox.each(function() {
-                            this.checked = false;                        
+                        checkbox.each(function () {
+                            this.checked = false;
                         });
-                    } 
+                    }
                 });
-                
-                checkbox.click(function() {
-                    if(!this.checked) {
+
+                checkbox.click(function () {
+                    if (!this.checked) {
                         $("#selectAll").prop("checked", false);
                     }
                 });
-                
+
                 // Delete button click event
-                $(".delete-btn").click(function(e) {
+                $(".delete-btn").click(function (e) {
                     e.preventDefault();
                     var id = $(this).data('id');
                     $("#deleteIds").val(id);

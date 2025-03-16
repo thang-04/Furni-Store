@@ -109,11 +109,10 @@ public class ProductDAO extends DBContext {
 
     public List<Product> searchProduct(String txtSearch) {
         List<Product> list = new ArrayList<>();
-        String sql = "select * from Product where productName like ? or description like ?";
+        String sql = "select * from Product where productName like ? ";
         try {
             ps = connection.prepareStatement(sql);
             ps.setString(1, "%" + txtSearch + "%");
-            ps.setString(2, "%" + txtSearch + "%");
 
             rs = ps.executeQuery();
             while (rs.next()) {

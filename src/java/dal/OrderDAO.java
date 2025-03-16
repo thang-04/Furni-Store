@@ -124,7 +124,26 @@ public class OrderDAO extends DBContext {
         return list;
     }
 
-      
+    public List<Order> getOrderBySeller(String uid) {
+        List<Order> list = new ArrayList<>();
+        String sql = "SELECT DISTINCT o.*\n"
+                + "FROM Orders o\n"
+                + "JOIN OrderDetails od ON o.OrderID = od.OrderID\n"
+                + "JOIN Product p ON od.ProductID = p.productID\n"
+                + "WHERE p.sell_Id = ? ";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, uid);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Order(rs.getInt(1), rs.getDate(2), rs.getInt(3), rs.getDouble(4), rs.getInt(5)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     public int getTotalUser() {
         String sql = "SELECT COUNT(*) FROM Users";
         try {
@@ -137,5 +156,15 @@ public class OrderDAO extends DBContext {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public void updateStatus(int id) {
+        String sql = "UPDATE [dbo].[Orders] SET [status] = 1 WHERE [OrderID] = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, id);
+            st.executeUpdate();
+        } catch (Exception e) {
+        }
     }
 }
