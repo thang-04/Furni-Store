@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -69,7 +69,14 @@
                             <a href="#" data-toggle="dropdown" class="d-flex align-items-center dropdown-link text-left" 
                                aria-haspopup="true" aria-expanded="false" data-offset="0, 20">
                                 <div class="profile-pic mr-3">
-                                    <img src="images/undraw_profile.svg" alt="Image">
+                                    <c:choose>
+                                        <c:when test="${fn:startsWith(sessionLogin.image, 'http')}">
+                                            <img src="${sessionLogin.image}" alt="Image" >
+                                        </c:when>
+                                        <c:otherwise>
+                                            <img src="images/${sessionLogin.image}" alt="Image" >
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
                                 <div class="profile-info">
                                     <h3>${sessionScope.sessionLogin.userName}</h3>
@@ -80,9 +87,9 @@
                                 <a class="dropdown-item" href="profile?uID=${sessionScope.sessionLogin.uid}">
                                     <span class="icon icon-user"></span> User Profile
                                 </a>
-<!--                                <a class="dropdown-item" href="#">
-                                    <span class="icon icon-cog"></span> Settings
-                                </a>-->
+                                <!--                                <a class="dropdown-item" href="#">
+                                                                    <span class="icon icon-cog"></span> Settings
+                                                                </a>-->
                                 <c:if test="${sessionScope.sessionLogin.roleId!=0}">
                                     <a class="dropdown-item" href="manageProduct?uID=${sessionScope.sessionLogin.uid}">
                                         <span class="icon icon-list"></span> Manager 

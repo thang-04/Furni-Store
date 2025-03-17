@@ -44,7 +44,9 @@
                         <div class="profile-card text-center">
                             <h5>Profile Picture</h5>
 
-                            <img id="previewImage" src="images/undraw_profile.svg" alt="Profile Picture" class="profile-img mb-3">
+                            <img id="previewImage" src="" alt="Profile Picture" class="profile-img mb-3">
+
+
                             <!-- Input file tam thoi comment -->
                             <input type="file" class="form-control" id="fileInput" name="file" placeholder="Enter photo">
                         </div>
@@ -175,5 +177,17 @@
     <!-- End Footer Section -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+                            document.addEventListener("DOMContentLoaded", function () {
+                                var imagePath = "${sessionLogin.image}";
+                                var imageElement = document.getElementById("previewImage");
 
+                                // Kiểm tra xem imagePath có phải là URL hay không
+                                if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
+                                    imageElement.src = imagePath; // Dùng URL trực tiếp
+                                } else {
+                                    imageElement.src = "images/" + imagePath; // Thêm thư mục images nếu chỉ có tên file
+                                }
+                            });
+    </script>
 </html>

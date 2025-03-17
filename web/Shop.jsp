@@ -179,87 +179,100 @@
 
                         </div>
                         <!--paging-->
-                        <!-- Phần phân trang đã cải thiện và sửa lỗi -->
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="pagination-container" style="text-align: right; margin-top: 20px; margin-bottom: 20px;">
-                                    <ul class="pagination float-end">
-                                        <!-- Nút Previous - Vô hiệu hóa nếu đang ở trang 1 -->
-                                        <li class="${currentPage <= 1 ? 'disabled' : ''}">
-                                            <c:choose>
-                                                <c:when test="${filteredProducts && currentPage > 1}">
-                                                    <!-- URL cho filtered products -->
-                                                    <a href="filter?page=${currentPage - 1}&minPrice=${minPrice}&maxPrice=${maxPrice}&sortOrder=${sortOrder.trim()}
-                                                       <c:forEach items="${brands}" var="brand">
-                                                           &brand=${brand}
-                                                       </c:forEach>
-                                                       <c:if test="${isAll}">
-                                                           &brand=all
-                                                       </c:if>
-                                                       ">«</a>
-                                                </c:when>
-                                                <c:when test="${!filteredProducts && currentPage > 1}">
-                                                    <!-- URL cho normal products -->
-                                                    <a href="shop?page=${currentPage - 1}">«</a>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <!-- Vô hiệu hóa thực sự -->
-                                                    <a href="javascript:void(0)" style="cursor: not-allowed; opacity: 0.5;">«</a>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </li>
+                       <!-- Phần phân trang đã sửa lỗi và thêm xử lý search -->
+<div class="row">
+    <div class="col-12">
+        <div class="pagination-container" style="text-align: right; margin-top: 20px; margin-bottom: 20px;">
+            <ul class="pagination float-end">
+                <!-- Nút Previous - Vô hiệu hóa nếu đang ở trang 1 -->
+                <li class="${currentPage <= 1 ? 'disabled' : ''}">
+                    <c:choose>
+                        <c:when test="${not empty searchQuery && currentPage > 1}">
+                            <!-- URL cho tìm kiếm -->
+                            <a href="search?page=${currentPage - 1}&query=${searchQuery}">«</a>
+                        </c:when>
+                        <c:when test="${filteredProducts && currentPage > 1}">
+                            <!-- URL cho filtered products -->
+                            <a href="filter?page=${currentPage - 1}&minPrice=${minPrice}&maxPrice=${maxPrice}&sortOrder=${sortOrder.trim()}
+                               <c:forEach items="${brands}" var="brand">
+                                   &brand=${brand}
+                               </c:forEach>
+                               <c:if test="${isAll}">
+                                   &brand=all
+                               </c:if>
+                               ">«</a>
+                        </c:when>
+                        <c:when test="${!filteredProducts && currentPage > 1}">
+                            <!-- URL cho normal products -->
+                            <a href="shop?page=${currentPage - 1}">«</a>
+                        </c:when>
+                        <c:otherwise>
+                            <!-- Vô hiệu hóa thực sự -->
+                            <a href="javascript:void(0)" style="cursor: not-allowed; opacity: 0.5;">«</a>
+                        </c:otherwise>
+                    </c:choose>
+                </li>
 
-                                        <!-- Danh sách số trang -->
-                                        <c:forEach begin="1" end="${totalPages}" var="i">
-                                            <li class="${currentPage == i ? 'active' : ''}">
-                                                <c:choose>
-                                                    <c:when test="${filteredProducts}">
-                                                        <!-- URL cho filtered products -->
-                                                        <a href="filter?page=${i}&minPrice=${minPrice}&maxPrice=${maxPrice}&sortOrder=${sortOrder.trim()}
-                                                           <c:forEach items="${brands}" var="brand">
-                                                               &brand=${brand}
-                                                           </c:forEach>
-                                                           <c:if test="${isAll}">
-                                                               &brand=all
-                                                           </c:if>
-                                                           ">${i}</a>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <!-- URL cho normal products -->
-                                                        <a href="shop?page=${i}">${i}</a>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </li>
-                                        </c:forEach>
+                <!-- Danh sách số trang -->
+                <c:forEach begin="1" end="${totalPages}" var="i">
+                    <li class="${currentPage == i ? 'active' : ''}">
+                        <c:choose>
+                            <c:when test="${not empty searchQuery}">
+                                <!-- URL cho tìm kiếm -->
+                                <a href="search?page=${i}&query=${searchQuery}">${i}</a>
+                            </c:when>
+                            <c:when test="${filteredProducts}">
+                                <!-- URL cho filtered products -->
+                                <a href="filter?page=${i}&minPrice=${minPrice}&maxPrice=${maxPrice}&sortOrder=${sortOrder.trim()}
+                                   <c:forEach items="${brands}" var="brand">
+                                       &brand=${brand}
+                                   </c:forEach>
+                                   <c:if test="${isAll}">
+                                       &brand=all
+                                   </c:if>
+                                   ">${i}</a>
+                            </c:when>
+                            <c:otherwise>
+                                <!-- URL cho normal products -->
+                                <a href="shop?page=${i}">${i}</a>
+                            </c:otherwise>
+                        </c:choose>
+                    </li>
+                </c:forEach>
 
-                                        <!-- Nút Next - Vô hiệu hóa nếu đang ở trang cuối -->
-                                        <li class="${currentPage >= totalPages ? 'disabled' : ''}">
-                                            <c:choose>
-                                                <c:when test="${filteredProducts && currentPage < totalPages}">
-                                                    <!-- URL cho filtered products -->
-                                                    <a href="filter?page=${currentPage + 1}&minPrice=${minPrice}&maxPrice=${maxPrice}&sortOrder=${sortOrder.trim()}
-                                                       <c:forEach items="${brands}" var="brand">
-                                                           &brand=${brand}
-                                                       </c:forEach>
-                                                       <c:if test="${isAll}">
-                                                           &brand=all
-                                                       </c:if>
-                                                       ">»</a>
-                                                </c:when>
-                                                <c:when test="${!filteredProducts && currentPage < totalPages}">
-                                                    <!-- URL cho normal products -->
-                                                    <a href="shop?page=${currentPage + 1}">»</a>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <!-- Vô hiệu hóa thực sự -->
-                                                    <a href="javascript:void(0)" style="cursor: not-allowed; opacity: 0.5;">»</a>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                <!-- Nút Next - Vô hiệu hóa nếu đang ở trang cuối -->
+                <li class="${currentPage >= totalPages ? 'disabled' : ''}">
+                    <c:choose>
+                        <c:when test="${not empty searchQuery && currentPage < totalPages}">
+                            <!-- URL cho tìm kiếm -->
+                            <a href="search?page=${currentPage + 1}&query=${searchQuery}">»</a>
+                        </c:when>
+                        <c:when test="${filteredProducts && currentPage < totalPages}">
+                            <!-- URL cho filtered products -->
+                            <a href="filter?page=${currentPage + 1}&minPrice=${minPrice}&maxPrice=${maxPrice}&sortOrder=${sortOrder.trim()}
+                               <c:forEach items="${brands}" var="brand">
+                                   &brand=${brand}
+                               </c:forEach>
+                               <c:if test="${isAll}">
+                                   &brand=all
+                               </c:if>
+                               ">»</a>
+                        </c:when>
+                        <c:when test="${!filteredProducts && currentPage < totalPages}">
+                            <!-- URL cho normal products -->
+                            <a href="shop?page=${currentPage + 1}">»</a>
+                        </c:when>
+                        <c:otherwise>
+                            <!-- Vô hiệu hóa thực sự -->
+                            <a href="javascript:void(0)" style="cursor: not-allowed; opacity: 0.5;">»</a>
+                        </c:otherwise>
+                    </c:choose>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
                         <!--end paging-->
                     </div> 
                 </div>

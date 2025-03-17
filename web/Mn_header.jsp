@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
     <!-- Topbar -->
@@ -19,9 +19,15 @@
             <li class="nav-item dropdown no-arrow">
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="mr-2 d-none d-lg-inline text-gray-600 ">${sessionScope.dataUser.userName}</span>
-                    <img class="img-profile rounded-circle"
-                         src="images/undraw_profile.svg">
+                    <span class="mr-2 d-none d-lg-inline text-gray-600 "style="font-size: 1.1rem" >${sessionScope.dataUser.userName}</span>
+                    <c:choose>
+                        <c:when test="${fn:startsWith(sessionLogin.image, 'http')}">
+                            <img class="img-profile rounded-circle" src="${sessionLogin.image}" alt="Profile Picture">
+                        </c:when>
+                        <c:otherwise>
+                            <img class="img-profile rounded-circle" src="images/${sessionLogin.image}" alt="Profile Picture">
+                        </c:otherwise>
+                    </c:choose>
                 </a>
                 <!-- Dropdown - User Information -->
                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"

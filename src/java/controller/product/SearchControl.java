@@ -61,7 +61,31 @@ public class SearchControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        ProductDAO dao = new ProductDAO();
+        String txtS = request.getParameter("query");
+
+        int page = 1;
+        int pageSize = 6;
+        String pageStr = request.getParameter("page");
+        if (pageStr != null) {
+            page = Integer.parseInt(pageStr);
+        }
+
+        List<Product> listP = dao.searchProductWithPaging(txtS, page, pageSize);
+
+        int totalSearchProducts = dao.countTotalSearchProducts(txtS);
+        int totalPages = (int) Math.ceil((double) totalSearchProducts / pageSize);
+
+        List<Category> listC = dao.getAllCategory();
+
+        request.setAttribute("listC", listC);
+        request.setAttribute("listP", listP);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("value", txtS);
+        request.setAttribute("searchQuery", txtS);
+        request.getRequestDispatcher("Shop.jsp").forward(request, response);
     }
 
     /**
@@ -78,13 +102,28 @@ public class SearchControl extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         ProductDAO dao = new ProductDAO();
         String txtS = request.getParameter("search");
-        List<Product> listP = dao.searchProduct(txtS);
+
+        int page = 1;
+        int pageSize = 6;
+        String pageStr = request.getParameter("page");
+        if (pageStr != null) {
+            page = Integer.parseInt(pageStr);
+        }
+
+        List<Product> listP = dao.searchProductWithPaging(txtS, page, pageSize);
+
+        int totalSearchProducts = dao.countTotalSearchProducts(txtS);
+        int totalPages = (int) Math.ceil((double) totalSearchProducts / pageSize);
+
         List<Category> listC = dao.getAllCategory();
-        
+
         request.setAttribute("listC", listC);
         request.setAttribute("listP", listP);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("totalPages", totalPages);
         request.setAttribute("value", txtS);
-        request.getRequestDispatcher("shop").forward(request, response);
+        request.setAttribute("searchQuery", txtS);
+        request.getRequestDispatcher("Shop.jsp").forward(request, response);
     }
 
     /**

@@ -273,6 +273,21 @@ public class ProductDAO extends DBContext {
         return 0;
     }
 
+    public int countTotalSearchProducts(String txtSearch) {
+        try {
+            String query = "SELECT COUNT(*) FROM Product WHERE productName LIKE ?";
+            ps = connection.prepareStatement(query);
+            ps.setString(1, "%" + txtSearch + "%");
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return 0;
+    }
+
     public List<Product> getProductsByPage(int page, int pageSize) {
         List<Product> list = new ArrayList<>();
         String sql = "SELECT * FROM Product ORDER BY productID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
@@ -323,6 +338,34 @@ public class ProductDAO extends DBContext {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return list;
+    }
+
+    public List<Product> searchProductWithPaging(String txtSearch, int page, int pageSize) {
+        List<Product> list = new ArrayList<>();
+        String query = "SELECT * FROM Product WHERE productName LIKE ? ORDER BY productID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, "%" + txtSearch + "%"); // Nếu productName là NVARCHAR, cần kiểm tra
+            ps.setInt(2, (page - 1) * pageSize);
+            ps.setInt(3, pageSize);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    list.add(new Product(
+                            rs.getInt(1),
+                            rs.getString(2),
+                            rs.getString(3),
+                            rs.getDouble(4),
+                            rs.getString(5),
+                            rs.getInt(6)
+                    ));
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
         return list;
     }
 

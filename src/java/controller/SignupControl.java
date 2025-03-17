@@ -83,20 +83,19 @@ public class SignupControl extends HttpServlet {
         String birthdayStr = request.getParameter("birthday");
         String phone = request.getParameter("phone");
 
-        // Kiểm tra nếu re_pass là null hoặc rỗng
         if (re_pass == null || re_pass.trim().isEmpty()) {
             request.setAttribute("mssErr", "Re-password cannot be empty!!");
             request.getRequestDispatcher("Register.jsp").forward(request, response);
             return;
         }
 
-        // Kiểm tra nếu pass và re_pass có giống nhau không
+        // Check pass và re_pass 
         if (re_pass.equals(pass)) {
             User acc = dao.checkAccExist(userName);
             if (acc == null) {
                 try {
                     Date birthday = new SimpleDateFormat("yyyy-MM-dd").parse(birthdayStr);
-                    dao.signUpNew(userName, fullName, pass, 0, "person_2.jpg", email, birthday, address, phone);
+                    dao.signUpNew(userName, fullName, pass, 0, "person_3.jpg", email, birthday, address, phone);
                     response.sendRedirect("Login.jsp");
                 } catch (ParseException ex) {
                     Logger.getLogger(SignupControl.class.getName()).log(Level.SEVERE, null, ex);
