@@ -108,5 +108,30 @@ public class LoginDAO extends DBContext {
         }
     }
 
+    public User getUserByEmail(String email) {
+        String sql = "SELECT * FROM Users WHERE email = ?";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, email);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return new User(
+                        rs.getInt("userID"),
+                        rs.getString("userName"),
+                        rs.getString("fullName"),
+                        rs.getString("password"),
+                        rs.getInt("roleID"),
+                        rs.getString("address"),
+                        rs.getDate("birthday"),
+                        rs.getString("phone"),
+                        rs.getString("email"),
+                        rs.getString("image")
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     /*----------------------End LOGIN and REGISTER--------------------------------*/
 }

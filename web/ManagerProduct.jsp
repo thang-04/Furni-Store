@@ -37,7 +37,6 @@
     <body id="page-top">
 
         <!-- Page Wrapper -->
-        <div id="wrapper">
 
             <jsp:include page="Mn-left.jsp"/>
 
@@ -266,7 +265,7 @@
             </div>
             <!-- End of Content Wrapper -->
 
-        </div>
+     
         <!-- End of Page Wrapper -->
 
         <!-- Scroll to Top Button-->

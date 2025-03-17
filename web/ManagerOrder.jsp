@@ -59,9 +59,9 @@
                                         <h2>History <b>Orders</b></h2>
                                     </div>
                                     <div class="col-sm-6 text-right">
-                                        <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal">
+<!--                                        <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal">
                                             <i class="fas fa-trash"></i> <span>Delete</span>
-                                        </a>
+                                        </a>-->
                                     </div>
                                 </div>
                             </div>
