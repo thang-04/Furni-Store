@@ -66,14 +66,7 @@ public class BuyControl extends HttpServlet {
             }
         }
         Cart cart = new Cart(txt, listP);
-        List<Item> listItem = cart.getItems();
-        int n;
-        if (listItem != null) {
-            n = listItem.size();
-        } else {
-            n = 0;
-        }
-//        request.setAttribute("size", n);
+   
         request.setAttribute("listP", listP);
         request.getRequestDispatcher("Shop.jsp").forward(request, response);
     }

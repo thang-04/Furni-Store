@@ -72,7 +72,7 @@ public class SizeCart extends HttpServlet {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("cart")) {
                     txt = cookie.getValue();
-                    break; // Chỉ lấy đúng cookie "cart"
+                    break; 
                 }
             }
         }

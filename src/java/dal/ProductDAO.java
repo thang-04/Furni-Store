@@ -106,7 +106,7 @@ public class ProductDAO extends DBContext {
         }
         return null;
     }
-
+    
     public List<Product> searchProduct(String txtSearch) {
         List<Product> list = new ArrayList<>();
         String sql = "select * from Product where productName like ? ";
