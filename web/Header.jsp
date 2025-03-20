@@ -56,11 +56,11 @@
             </div>
 
             <ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-                <c:if test="${sessionScope.sessionLogin==null}">
+                   <c:if test="${sessionScope.sessionLogin==null}">
                     <li><a class="nav-link" href="login"><img src="images/user.svg"></a></li>
-                        </c:if>
+                    </c:if>
                 <li><a id="cartSize" class="nav-link" href="view"><img src="images/cart.svg">(${size!=null?size:0})</a></li>
-
+                     
             </ul>
             <c:if test="${sessionScope.sessionLogin != null}">
                 <div class="row_dropdow justify-content-center end">

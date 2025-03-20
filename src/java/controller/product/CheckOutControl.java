@@ -84,15 +84,7 @@ public class CheckOutControl extends HttpServlet {
         }
         Cart cart = new Cart(txt, listP);
         List<Item> listItem = cart.getItems();
-        int n;
-        if (listItem != null) {
-            n = listItem.size();
-        } else {
-            n = 0;
-        }
-
-        request.setAttribute("dataUser", sessionLogin);
-        request.setAttribute("size", n);
+     
         request.setAttribute("cart", cart);
         if (sessionLogin != null) {
             request.getRequestDispatcher("CheckOut.jsp").forward(request, response);
@@ -126,17 +118,8 @@ public class CheckOutControl extends HttpServlet {
                 }
             }
         }
+        
         Cart cart = new Cart(txt, listP);
-        List<Item> listItem = cart.getItems();
-        int n;
-        if (listItem != null) {
-            n = listItem.size();
-        } else {
-            n = 0;
-        }
-   
-        request.setAttribute("dataUser", sessionLogin);
-        request.setAttribute("size", n);
         request.setAttribute("cart", cart);
 
         if (sessionLogin != null) {
@@ -153,7 +136,7 @@ public class CheckOutControl extends HttpServlet {
                 String msg = handleEmail.messageOrder(currentDateTime, cart.getTotalMoney(), sessionLogin.getAddress());
                 handleEmail.sendEmail(sub, msg, sessionLogin.getEmail());
             } catch (Exception e) {
-                e.printStackTrace(); // In lỗi ra console để kiểm tra
+                e.printStackTrace(); 
             }
             
             request.getRequestDispatcher("Thankyou.jsp").forward(request, response);

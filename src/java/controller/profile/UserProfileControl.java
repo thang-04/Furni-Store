@@ -66,9 +66,8 @@ public class UserProfileControl extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ProfileDao dao = new ProfileDao();
-        String uid = request.getParameter("uID");
         HttpSession session = request.getSession();
-        session.setAttribute("sessionLogin", dao.getUserById(uid));
+        session.getAttribute("sessionLogin");
         session.setMaxInactiveInterval(60 * 60 * 60 * 24);
         request.getRequestDispatcher("UserProfile.jsp").forward(request, response);
     }

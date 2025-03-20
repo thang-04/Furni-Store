@@ -7,6 +7,7 @@ package dal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 import model.DBContext;
 import model.User;
@@ -47,7 +48,7 @@ public class ProfileDao extends DBContext {
             ps.setString(10, uId);
 
             ps.executeUpdate();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -72,7 +73,7 @@ public class ProfileDao extends DBContext {
                     );
                 }
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;

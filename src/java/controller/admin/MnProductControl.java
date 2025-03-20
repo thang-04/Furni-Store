@@ -122,7 +122,6 @@ public class MnProductControl extends HttpServlet {
             e.printStackTrace();
         }
 
-        session.setAttribute("dataUser", dao2.getUserById(uid));
         request.setAttribute("listC", listC);
 //        request.setAttribute("listP", listP);
         request.getRequestDispatcher("ManagerProduct.jsp").forward(request, response);

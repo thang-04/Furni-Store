@@ -86,7 +86,7 @@
                                                     <div class="input-group-prepend">
                                                         <a class="btn btn-outline-black decrease" href="process?num=-1&id=${i.product.pId}" >&minus;</a>
                                                     </div>
-                                                    <input type="text" class="form-control text-center quantity-amount" value="${i.quantity}" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                                                        <input type="text" class="form-control text-center quantity-amount" value="${i.quantity}" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1" readonly="">
                                                     <div class="input-group-append">
                                                         <a class="btn btn-outline-black increase" href="process?num=1&id=${i.product.pId}">&plus;</a>
                                                     </div>

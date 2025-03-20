@@ -67,14 +67,14 @@
                                 <div class="form-group row">
                                     <div class="col-md">
                                         <label for="c_fname" class="text-black">Name <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="c_fname" name="name" value="${dataUser.fullName}">
+                                        <input type="text" class="form-control" id="c_fname" name="name" value="${sessionLogin.fullName}">
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <div class="col-md-12">
                                     <label for="c_address" class="text-black">Address <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="c_address" value="${dataUser.address}" name="address" placeholder="Street address">
+                                    <input type="text" class="form-control" id="c_address" value="${sessionLogin.address}" name="address" placeholder="Street address">
                                 </div>
                             </div>
 
@@ -85,11 +85,11 @@
                             <div class="form-group row mb-5">
                                 <div class="col-md-6">
                                     <label for="c_email_address" class="text-black">Email Address <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="c_email_address" value="${dataUser.email}" name="email">
+                                    <input type="text" class="form-control" id="c_email_address" value="${sessionLogin.email}" name="email">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="c_phone" class="text-black">Phone <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="c_phone" value="${dataUser.phone}" name="phone" placeholder="Phone Number">
+                                    <input type="text" class="form-control" id="c_phone" value="${sessionLogin.phone}" name="phone" placeholder="Phone Number">
                                 </div>
                             </div>
 
