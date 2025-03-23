@@ -68,16 +68,15 @@ public class VnpayReturn extends HttpServlet {
 
                 //XU LI THANH TOAN 
                 String orderId = request.getParameter("vnp_TxnRef");
-
+                //delete cookie when pay 
+                Cookie c = new Cookie("cart", "");
+                c.setMaxAge(0);
+                response.addCookie(c);
                 boolean transSuccess = false;
                 if ("00".equals(request.getParameter("vnp_TransactionStatus"))) {
                     //update banking system
                     orderDao.updatePaid(Integer.parseInt(orderId));
                     transSuccess = true;
-                    //delete cookie when pay success
-                    Cookie c = new Cookie("cart", "");
-                    c.setMaxAge(0);
-                    response.addCookie(c);
                 }
 
                 try {
