@@ -4,23 +4,25 @@
  */
 package controller.product;
 
-import dal.ProductDAO;
-import model.Category;
-import model.Product;
+import dal.OrderDAO;
+import dal.ProfileDao;
 import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
+import model.Order;
 
 /**
  *
  * @author PC
  */
-@WebServlet(name = "ShopControl", urlPatterns = {"/shop"})
-public class ShopControl extends HttpServlet {
+@WebServlet(name = "HistoryOrderControl", urlPatterns = {"/historyOrder"})
+public class HistoryOrderControl extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,15 +36,18 @@ public class ShopControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-//        ProductDAO dao = new ProductDAO();
-//
-//        List<Category> listC = dao.getAllCategory();
-//        List<Product> listP = dao.getAllProduct();
-//
-//        request.setAttribute("listC", listC);
-//        request.setAttribute("listP", listP);
-
-        request.getRequestDispatcher("Shop.jsp").forward(request, response);
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet HistoryOrderControl</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet HistoryOrderControl at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -53,30 +58,18 @@ public class ShopControl extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     */  
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ProductDAO dao = new ProductDAO();
-        int page = 1;
-        int pageSize = 6; 
-        String pageStr = request.getParameter("page");
-     
-        if (pageStr != null) {
-            page = Integer.parseInt(pageStr);
-    }
+        OrderDAO dao = new OrderDAO();
+        ProfileDao dao2 = new ProfileDao();
+        HttpSession session = request.getSession();
+        String uid = request.getParameter("uID");
+        List<Order> list = dao.getAllOrderByUser(uid);
 
-        List<Product> products = dao.getProductsByPage(page, pageSize);
-        int totalProducts = dao.countTotalProducts();
-        int totalPages = (int) Math.ceil((double) totalProducts / pageSize);
-        List<Category> listC = dao.getAllCategory();
-        
-        request.setAttribute("listC", listC);
-        request.setAttribute("listP", products);
-        request.setAttribute("currentPage", page);
-        request.setAttribute("totalPages", totalPages);
-        request.getRequestDispatcher("Shop.jsp").forward(request, response);
-
+        request.setAttribute("listO", list);
+        request.getRequestDispatcher("HistoryOrder.jsp").forward(request, response);
     }
 
     /**
@@ -91,7 +84,6 @@ public class ShopControl extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-
     }
 
     /**

@@ -11,26 +11,37 @@ import java.util.Date;
  * @author PC
  */
 public class Order {
+
     private int oId;
     private Date date;
     private int userId;
     private double totalMoney;
     private int status;
+    private int isPay;
 
-    public Order() {
-    }
-
-    public Order(int oId, Date date, int userId, double totalMoney, int status) {
+    public Order(int oId, Date date, int userId, double totalMoney, int status, int isPay) {
         this.oId = oId;
         this.date = date;
         this.userId = userId;
         this.totalMoney = totalMoney;
         this.status = status;
+        this.isPay = isPay;
     }
 
-    public int getOId() {  
-    return oId;
-}
+    public Order() {
+    }
+
+    public int getIsPay() {
+        return isPay;
+    }
+
+    public void setIsPay(int isPay) {
+        this.isPay = isPay;
+    }
+
+    public int getOId() {
+        return oId;
+    }
 
     public void setOId(int oId) {
         this.oId = oId;
@@ -68,6 +79,4 @@ public class Order {
         this.status = status;
     }
 
-   
-    
 }

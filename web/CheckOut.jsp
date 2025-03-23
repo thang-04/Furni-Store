@@ -24,7 +24,7 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
         <link href="css/tiny-slider.css" rel="stylesheet">
         <link href="css/style_0.css" rel="stylesheet">
-           <title>Furni Store</title>
+        <title>Furni Store</title>
     </head>
 
     <body>
@@ -122,73 +122,74 @@
                         <div class="row mb-5">
                             <div class="col-md-12">
                                 <h2 class="h3 mb-3 text-black">Your Order</h2>
-                                
-                                <form action="checkout" method="Post">
 
-                                    <div class="p-3 p-lg-5 border bg-white">
-                                        <table class="table site-block-order-table mb-5">
-                                            <thead>
-                                            <th>Product</th>
-                                            <th>Total</th>
-                                            </thead>
-                                            <tbody>
+                                <!--<form action="checkout" method="Post">-->
 
-                                                <c:set var="o" value="${requestScope.cart}"  />
-                                                <c:forEach items="${o.items}" var="i">
-                                                    <tr>
-                                                        <td>${i.product.pName} <strong class="mx-2">x</strong> ${i.quantity}</td>
-                                                        <td>$${i.price}</td>
-                                                    </tr>
-                                                </c:forEach>
+                                <div class="p-3 p-lg-5 border bg-white">
+                                    <table class="table site-block-order-table mb-5">
+                                        <thead>
+                                        <th>Product</th>
+                                        <th>Total</th>
+                                        </thead>
+                                        <tbody>
 
+                                            <c:set var="o" value="${requestScope.cart}" />
+                                            <c:forEach items="${o.items}" var="i">
                                                 <tr>
-                                                    <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
-                                                    <td class="text-black">$${o.totalMoney}</td>
+                                                    <td>${i.product.pName} <strong class="mx-2">x</strong> ${i.quantity}</td>
+                                                    <td>$${i.price}</td>
                                                 </tr>
-                                                <tr>
-                                                    <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
-                                                    <td class="text-black font-weight-bold"><strong>$${o.totalMoney}</strong></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                            </c:forEach>
 
-                                        <div class="border p-3 mb-3">
-                                            <h3 class="h6 mb-0"><a class="d-block" data-bs-toggle="collapse" href="#collapsebank" role="button" aria-expanded="false" aria-controls="collapsebank">Direct Bank Transfer</a></h3>
+                                            <tr>
+                                                <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
+                                                <td class="text-black">$${o.totalMoney}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
+                                                <td class="text-black font-weight-bold"><strong>$${o.totalMoney}</strong></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
 
-                                            <div class="collapse" id="collapsebank">
-                                                <div class="py-2">
-                                                    <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                                                </div>
+                                    <div class="border p-3 mb-3">
+                                        <h3 class="h6 mb-0"><a class="d-block" data-bs-toggle="collapse" href="#collapsebank" role="button" aria-expanded="false" aria-controls="collapsebank">Direct Bank Transfer</a></h3>
+
+                                        <div class="collapse" id="collapsebank">
+                                            <div class="py-2">
+                                                <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
                                             </div>
                                         </div>
-
-                                        <div class="border p-3 mb-3">
-                                            <h3 class="h6 mb-0"><a class="d-block" data-bs-toggle="collapse" href="#collapsecheque" role="button" aria-expanded="false" aria-controls="collapsecheque">Cheque Payment</a></h3>
-
-                                            <div class="collapse" id="collapsecheque">
-                                                <div class="py-2">
-                                                    <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="border p-3 mb-5">
-                                            <h3 class="h6 mb-0"><a class="d-block" data-bs-toggle="collapse" href="#collapsepaypal" role="button" aria-expanded="false" aria-controls="collapsepaypal">Paypal</a></h3>
-
-                                            <div class="collapse" id="collapsepaypal">
-                                                <div class="py-2">
-                                                    <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <button type="submit" class="btn btn-black btn-lg py-3 btn-block" >Place Order</button>
-                                        </div>
-
                                     </div>
-                                </form>
-                                                
+
+                                    <div class="border p-3 mb-3">
+                                        <h3 class="h6 mb-0"><a class="d-block" data-bs-toggle="collapse" href="#collapsecheque" role="button" aria-expanded="false" aria-controls="collapsecheque">Cheque Payment</a></h3>
+
+                                        <div class="collapse" id="collapsecheque">
+                                            <div class="py-2">
+                                                <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="border p-3 mb-5">
+                                        <h3 class="h6 mb-0"><a class="d-block" data-bs-toggle="collapse" href="#collapsepaypal" role="button" aria-expanded="false" aria-controls="collapsepaypal">Paypal</a></h3>
+
+                                        <div class="collapse" id="collapsepaypal">
+                                            <div class="py-2">
+                                                <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <form action="payment" method="post">
+                                        <input type="hidden" name="totalBill" value="${o.totalMoney}">
+                                        <button type="submit" class="btn btn-black btn-lg py-3 btn-block" >Pay</button>
+                                    </form> 
+
+                                </div>
+                                <!--</form>-->
+
                             </div>
                         </div>
                     </div>
@@ -211,7 +212,7 @@
                             <h3 class="d-flex align-items-center"><span class="me-1"><img src="images/envelope-outline.svg" alt="Image" class="img-fluid"></span><span>Subscribe to Newsletter</span></h3>
 
                             <form action="#" class="row g-3">
-                                
+
                                 <div class="col-auto">
                                     <input type="text" class="form-control" placeholder="Enter your name">
                                 </div>
