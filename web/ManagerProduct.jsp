@@ -179,7 +179,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>User ID</label>
-                                            <input name="user_Id"  value="${sessionScope.dataUser.uid}" readonly>
+                                            <input name="user_Id"  value="${sessionScope.sessionLogin.uid}" readonly>
                                         </div>
                                     </div>
                                     <div class="modal-footer">

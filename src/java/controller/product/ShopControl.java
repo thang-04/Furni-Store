@@ -65,11 +65,11 @@ public class ShopControl extends HttpServlet {
         int page = 1;
         int pageSize = 6; 
         String pageStr = request.getParameter("page");
-        
+     
         if (pageStr != null) {
             page = Integer.parseInt(pageStr);
-        }
-        
+    }
+
         List<Product> products = dao.getProductsByPage(page, pageSize);
         int totalProducts = dao.countTotalProducts();
         int totalPages = (int) Math.ceil((double) totalProducts / pageSize);

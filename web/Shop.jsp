@@ -162,17 +162,31 @@
                             <c:forEach items="${listP}" var="p">
                                 <div class="col-12 col-md-6 col-lg-4 mb-5 ">
                                     <div class="product-item">
-                                        <a onclick="openModal(${p.pId}, '${p.image}', '${p.pName}', ${p.price}, `${fn:escapeXml(p.description)}`)">
+                                        <a onclick="openModal(${p.pId}, '${p.image}', '${p.pName}', ${p.price}, `${fn:escapeXml(p.description)}`,${p.quantity})">
                                             <img src="${p.image}" class="img-fluid product-thumbnail">
                                             <h3 class="product-title">${p.pName}</h3>
+                                            <c:if test="${p.quantity!=0}">
+                                                <h3 class="product-title">${p.quantity}</h3>
+                                            </c:if>
+                                            <c:if test="${p.quantity==0}">
+                                                <h3 class="product-title text-danger">Hết hàng</h3>
+                                            </c:if>
                                             <strong class="product-price">$${p.price}</strong>
                                         </a>
+                                        <!--icon cross-->
                                         <span class="icon-cross">
-                                            <img src="images/cross.svg" class="img-fluid" onclick="addToCart('${p.pId}', 1)">
+                                            <c:choose>
+                                                <c:when test="${p.quantity > 0}">
+                                                    <img src="images/cross.svg" class="img-fluid" onclick="addToCart('${p.pId}', 1)">
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <img src="images/cross.svg" class="img-fluid opacity-50" style="cursor: not-allowed;" title="Sản phẩm đã hết hàng">
+                                                </c:otherwise>
+                                            </c:choose>
                                         </span>
+                                        <!--------------->
                                     </div>
                                 </div>
-
                             </c:forEach>
 
                             <!-- End Product Column -->
@@ -396,7 +410,6 @@
             }
 
         </style>
-
         <!--modelbox-->
 
         <div class="modal fade" id="modal_box" tabindex="-1" aria-hidden="true">
@@ -449,15 +462,20 @@
                                         <div class="modal_title mb-10">
                                             <h2 id="modal_name"></h2>
                                         </div>
+
                                         <div class="modal_price mb-10">
                                             <span class="new_price">Rs. <span id="modal_salePrice"></span>$</span>
                                         </div>
+
                                         <div class="modal_description mb-15">
                                             <p id="modal_description"></p>
                                         </div>
                                         <div class="variants_selects">
                                             <div class="variants_size">
                                                 <h2>Supplier: <span id="modal_companyName"></span></h2><br/>
+                                            </div>
+                                            <div class="">
+                                                <span>Số lượng trong kho: <span id="numStore"> </span></span>
                                             </div>
                                             <!--                                            <div class="variants_fragrance">
                                                                                             <h2>Size</h2>
@@ -468,7 +486,7 @@
                                                     <input id="quantity" name="quantity" type="number" min="1" max="100" step="1" value="1">
                                                     <input id="modal_id" name="id" type="hidden">
                                                     <input id="role" name="role" type="hidden" value="add">
-                                                    <button id="modal_add_button" type="submit">Add to cart</button>
+                                                    <button id="modal_add_button" type="submit"></button>
                                                 </form>
                                             </div>
                                         </div>
