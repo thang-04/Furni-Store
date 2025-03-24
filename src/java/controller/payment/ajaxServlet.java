@@ -49,12 +49,11 @@ public class ajaxServlet extends HttpServlet {
 
         OrderDAO orderDao = new OrderDAO();
         int orderId;
-        Order order = null;
+        orderId = Integer.parseInt(req.getParameter("payID"));
+
+        Order order = orderDao.getOrderById(orderId);
         //check orderID
-        if (req.getParameter("payID") != null) {
-            orderId = Integer.parseInt(req.getParameter("payID"));
-            order = orderDao.getOrderById(orderId);
-        }
+
         HttpSession session = req.getSession();
         User sessionLogin = (User) session.getAttribute("sessionLogin");
         ProductDAO dao = new ProductDAO();
@@ -74,7 +73,9 @@ public class ajaxServlet extends HttpServlet {
         if (order == null) {
             orderDao.addOrder(sessionLogin, cart);
         }
-        orderId = orderDao.getLastOrderId();
+        if (req.getParameter("payID") == null) {
+            orderId = orderDao.getLastOrderId();
+        }
 
         if (orderId < 1) {
             resp.sendRedirect("view");

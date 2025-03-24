@@ -77,21 +77,21 @@ public class VnpayReturn extends HttpServlet {
                     //update banking system
                     orderDao.updatePaid(Integer.parseInt(orderId));
                     transSuccess = true;
-                }
+                    //send mail if pay success
+                    try {
+                        HttpSession session = request.getSession();
+                        User sessionLogin = (User) session.getAttribute("sessionLogin");
+                        Order order = orderDao.getOrderById(Integer.parseInt(orderId));
+                        LocalDateTime currentDateTime = LocalDateTime.now();
+                        //SEND EMAIL
+                        Email handleEmail = new Email();
+                        String sub = handleEmail.subjectOrder(sessionLogin.getFullName());
+                        String msg = handleEmail.messageOrder(currentDateTime, order.getTotalMoney(), sessionLogin.getAddress());
+                        handleEmail.sendEmail(sub, msg, sessionLogin.getEmail());
 
-                try {
-                    HttpSession session = request.getSession();
-                    User sessionLogin = (User) session.getAttribute("sessionLogin");
-                    Order order = orderDao.getOrderById(Integer.parseInt(orderId));
-                    LocalDateTime currentDateTime = LocalDateTime.now();
-                    //SEND EMAIL
-                    Email handleEmail = new Email();
-                    String sub = handleEmail.subjectOrder(sessionLogin.getFullName());
-                    String msg = handleEmail.messageOrder(currentDateTime, order.getTotalMoney(), sessionLogin.getAddress());
-                    handleEmail.sendEmail(sub, msg, sessionLogin.getEmail());
-
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 request.setAttribute("transResult", transSuccess);

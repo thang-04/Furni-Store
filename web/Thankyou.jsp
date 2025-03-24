@@ -86,7 +86,7 @@
                             </span>
                             <h2 class="display-3 text-black">Chưa Thanh toán!</h2>
                             <p class="lead mb-5">Vui lòng thanh toán đơn hàng.</p>
-                            <p><a href="shop" class="btn btn-sm btn-outline-black">Back to shop</a></p>
+                            <p><a href="historyOrder?uID=${sessionScope.sessionLogin.uid}" class="btn btn-sm btn-outline-black">Payment</a></p>
                         </div>
                     </div>
                 </div>
