@@ -61,6 +61,26 @@ public class ProductDAO extends DBContext {
         }
         return list;
     }
+    public List<Product> getProductByOid(String uid) {
+        List<Product> list = new ArrayList<>();
+        String sql = "select p.productID,p.productName,p.image,p.price,p.description,od.quantity from OrderDetails od join Product p on p.productID=od.ProductID join Orders o on o.OrderID=od.OrderID where o.OrderID=?";
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, uid);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Product(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getDouble(4),
+                        rs.getString(5),
+                        rs.getInt(6)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 
     public List<Product> getAllProduct() {
         List<Product> list = new ArrayList<>();

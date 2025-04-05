@@ -93,6 +93,7 @@
                                 <span class="ms-2 fs-6">Sign in with Google</span>
                             </a>
 
+                            
                         </div>
 
                         <div class="text-center p-t-60">

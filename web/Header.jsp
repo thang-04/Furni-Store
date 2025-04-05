@@ -95,6 +95,9 @@
                                 <a class="dropdown-item" href="historyOrder?uID=${sessionScope.sessionLogin.uid}">
                                     <span class="icon icon-receipt"></span> History Order
                                 </a>
+<!--                                     <a class="dropdown-item" href="viewOrderdetai?uID=${sessionScope.sessionLogin.uid}">
+                                    <span class="icon icon-receipt"></span> Order
+                                </a>-->
                                 <a class="dropdown-item" href="logout">
                                     <span class="icon icon-sign-out"></span> Log out
                                 </a>

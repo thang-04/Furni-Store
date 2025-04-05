@@ -59,9 +59,9 @@
                                         <h2>History <b>Orders</b></h2>
                                     </div>
                                     <div class="col-sm-6 text-right">
-<!--                                        <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal">
-                                            <i class="fas fa-trash"></i> <span>Delete</span>
-                                        </a>-->
+                                        <!--                                        <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal">
+                                                                                    <i class="fas fa-trash"></i> <span>Delete</span>
+                                                                                </a>-->
                                     </div>
                                 </div>
                             </div>
@@ -79,6 +79,7 @@
                                             <th>Date</th>
                                             <th>Total Money</th>
                                             <th>User ID</th>
+                                            <th>IsPay</th>
                                             <th>Status</th>
                                             <th>Actions</th>
                                         </tr>
@@ -96,6 +97,7 @@
                                                 <td>${o.date}</td>
                                                 <td>${o.totalMoney}$</td>
                                                 <td>${o.userId}</td>
+                                                <td>${o.isPay==0?"Unpaid":"Paied"}</td>
                                                 <td>${o.status==0?"Not delivery":"Delivered"}</td>
                                                 <td style="white-space: nowrap;">
                                                     <c:if test="${o.status==0}">

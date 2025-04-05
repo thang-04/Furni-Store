@@ -48,12 +48,14 @@ public class ajaxServlet extends HttpServlet {
         double amountDouble = Double.parseDouble(req.getParameter("totalBill"));
 
         OrderDAO orderDao = new OrderDAO();
-        int orderId;
-        orderId = Integer.parseInt(req.getParameter("payID"));
+        int orderId = -1;
+        Order order = null;
+        if (req.getParameter("payID") != null) {
+            orderId = Integer.parseInt(req.getParameter("payID"));
+            order = orderDao.getOrderById(orderId);
+        }
 
-        Order order = orderDao.getOrderById(orderId);
         //check orderID
-
         HttpSession session = req.getSession();
         User sessionLogin = (User) session.getAttribute("sessionLogin");
         ProductDAO dao = new ProductDAO();
@@ -75,6 +77,10 @@ public class ajaxServlet extends HttpServlet {
         }
         if (req.getParameter("payID") == null) {
             orderId = orderDao.getLastOrderId();
+            //delete cookie when pay 
+            Cookie c = new Cookie("cart", "");
+            c.setMaxAge(0);
+            resp.addCookie(c);
         }
 
         if (orderId < 1) {

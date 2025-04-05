@@ -63,6 +63,8 @@
                                         <th>User ID</th>
                                         <th>Status</th>
                                         <th>Actions</th>
+                                        <th></th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -82,6 +84,8 @@
                                                 </form>
                                             </c:if>
                                         </td>
+                                        <td><a href="viewOrderdetai?oId=${o.OId}">View</a></td>
+
                                     </tr>
                                 </c:forEach>
                             </tbody>

@@ -70,7 +70,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        
+
                                     <c:set var="o" value="${requestScope.cart}"  />
                                     <c:set var="tt" value="0"  />
                                     <c:forEach items="${o.items}" var="i">
@@ -86,7 +86,7 @@
                                                     <div class="input-group-prepend">
                                                         <a class="btn btn-outline-black decrease" href="process?num=-1&id=${i.product.pId}" >&minus;</a>
                                                     </div>
-                                                        <input type="text" class="form-control text-center quantity-amount" value="${i.quantity}" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1" readonly="">
+                                                    <input type="text" class="form-control text-center quantity-amount" value="${i.quantity}" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1" readonly="">
                                                     <div class="input-group-append">
                                                         <a class="btn btn-outline-black increase" href="process?num=1&id=${i.product.pId}">&plus;</a>
                                                     </div>
@@ -157,7 +157,12 @@
 
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <button class="btn btn-black btn-lg py-3 btn-block" onclick="window.location = 'checkout'">Proceed To Checkout</button>
+                                        <c:if test="${o.totalMoney==0}">
+                                            <button class="btn btn-black btn-lg py-3 btn-block" onclick="window.alert('Vui lòng thêm sản phẩm vào giỏ hàng')">No product to checkout</button>
+                                        </c:if>
+                                        <c:if test="${o.totalMoney!=0}">
+                                            <button class="btn btn-black btn-lg py-3 btn-block" onclick="window.location = 'checkout'">Proceed To Checkout</button>
+                                        </c:if>
                                     </div>
                                 </div>
                             </div>
