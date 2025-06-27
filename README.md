@@ -35,7 +35,7 @@
 
 - **Frontend**: HTML, CSS, JavaScript, Bootstrap
 - **Backend**: Java Servlet, JSP
-- **Database**: MySQL
+- **Database**: MSSQL Sever
 - **Payment**: **VNPay** integration for online payments
 - **Others**: reCAPTCHA, Google OAuth
 
