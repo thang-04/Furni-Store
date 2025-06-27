@@ -11,8 +11,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 
 /**
  *
@@ -21,7 +20,6 @@ import org.apache.logging.log4j.Logger;
 @WebServlet(name = "home", urlPatterns = {"/home"})
 public class home extends HttpServlet {
 
-    private static final Logger logger = LogManager.getLogger(home.class);
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -61,8 +59,6 @@ public class home extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         logger.info("Servlet LogDemoServlet được gọi");
-        logger.debug("Thông tin chi tiết debug");
         request.getRequestDispatcher("Home.jsp").forward(request, response);
     }
 
