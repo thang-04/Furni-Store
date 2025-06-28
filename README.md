@@ -56,30 +56,6 @@ For any contributions, suggestions, or bug reports, please use the [issue tracke
 
 ---
 
-## 📁 Dự án bao gồm các module:
-
-```
-src/
- └─ main/
-     ├─ java/com/OLearning/
-     │   ├─ config/               → Cấu hình Spring
-     │   ├─ controller/           → Xử lý request, chia theo module
-     │   ├─ entity/               → Các lớp ánh xạ DB (JPA Entity)
-     │   ├─ exception/            → Xử lý ngoại lệ tùy chỉnh
-     │   ├─ repository/           → Giao tiếp DB (Spring Data JPA)
-     │   ├─ service/              → Business logic
-     │   └─ OLearningApplication.java
-     └─ resources/
-         ├─ static/               → Tài nguyên tĩnh (JS, CSS, ảnh)
-         ├─ templates/
-         │    └─ adminDashboard/
-         │         ├─ fragments/  → Giao diện tái sử dụng (header, footer, v.v.)
-         │         └─ pages/      → Các trang chính (Gợi ý chia riêng)
-         └─ application.properties
-```
-
----
-
 ## 🧪 Hướng dẫn chạy dự án
 
 1. **Yêu cầu:**
